@@ -12,7 +12,6 @@ class Send_Mail():
         SUBJECT = subject
         TEXT = body
 
-        # Prepare actual message
         message = """From: %s\nTo: %s\nSubject: %s\n\n%s
         """ % (FROM, ", ".join(TO), SUBJECT, TEXT)
         try:

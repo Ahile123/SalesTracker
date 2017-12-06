@@ -10,9 +10,8 @@ class Scraper():
         with open(Current_List, 'r') as f:
             listWords = [line[:-1] for line in f]
 
-        #print (listWords)
 
-    def get_data(self, url, Current_List):
+    def get_data(self, url, Current_List, filters = []):
         r = requests.get(url)
         soup = BeautifulSoup(r.text, 'lxml')
         list = soup.find_all('a')
@@ -22,10 +21,8 @@ class Scraper():
 
         final_List = []
         for seq in paragraphs:
-            sub1 = 'marginright5'
-            sub2 = 'plus'
-            sub3 = 'iphone'
-            if seq.find(sub1) != -1 and seq.find(sub2) != -1 and seq.find(sub3) != -1:
+            sub = 'marginright5'
+            if seq.find(sub) != -1 and all(x in seq for x in filters):
                 first = seq.find('href=')
                 last = seq.find('>') - 1
                 final_List.append(seq[first + 6: last])
@@ -41,6 +38,7 @@ class Scraper():
 
         myFile = open(Current_List, 'w')
         for word in listWords:
-            print(word, file=myFile)
+            print(word, file = myFile)
+
         '''for seq in final_List:
             print(seq)'''
